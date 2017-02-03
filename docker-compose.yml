@@ -15,7 +15,7 @@ services:
         - com.df.servicePath=/
         - com.df.port=8000
     volumes:
-      - /var/lib/drone/
+      - data:/var/lib/drone/
     environment:
       - DRONE_GITHUB=true
       - DRONE_OPEN=true
@@ -39,3 +39,6 @@ networks:
     external: false
   proxy:
     external: true
+
+volumes:
+  data:
