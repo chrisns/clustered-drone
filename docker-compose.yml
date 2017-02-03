@@ -1,6 +1,6 @@
 version: "3"
 services:
-  drone-server:
+  server:
     image: drone/drone:0.5
     networks:
       - proxy
@@ -21,12 +21,21 @@ services:
       - DRONE_GITHUB_SECRET=${DRONE_GITHUB_SECRET}
       - DRONE_SECRET=${DRONE_SECRET}
 
-  drone-agent:
+  agent:
     image: drone/drone:0.5
     command: agent
     depends_on: [ drone-server ]
+    deploy:
+      mode: replicated
+      replicas: 2
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - DRONE_SERVER=ws://drone-server:8000/ws/broker
       - DRONE_SECRET=${DRONE_SECRET}
+
+networks:
+  default:
+    external: false
+  proxy:
+    external: true
