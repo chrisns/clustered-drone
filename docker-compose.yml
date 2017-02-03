@@ -2,8 +2,17 @@ version: "3"
 services:
   drone-server:
     image: drone/drone:0.5
-    ports:
-      - 801:8000
+    networks:
+      - proxy
+      - default
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - com.df.notify=true
+        - com.df.distribute=true
+        - com.df.serviceDomain.1=drone.p.cns.me
+        - com.df.port.1=8000
     volumes:
       - /var/lib/drone/
     environment:
