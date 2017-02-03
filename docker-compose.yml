@@ -18,6 +18,7 @@ services:
       - /var/lib/drone/
     environment:
       - DRONE_GITHUB=true
+      - DRONE_OPEN=true
       - DRONE_GITHUB_CLIENT=${DRONE_GITHUB_CLIENT}
       - DRONE_GITHUB_SECRET=${DRONE_GITHUB_SECRET}
       - DRONE_SECRET=${DRONE_SECRET}
