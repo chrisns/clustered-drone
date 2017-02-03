@@ -34,6 +34,14 @@ services:
       - DRONE_SERVER=ws://server:8000/ws/broker
       - DRONE_SECRET=${DRONE_SECRET}
 
+  tunnel:
+    image: kaixhin/localtunnel
+    command: 8000 --local-host server --subdomain ${EXTERNAL_DRONE_URL}
+    depends_on: [ drone-server ]
+    deploy:
+      mode: replicated
+      replicas: 1
+
 networks:
   default:
     external: false
