@@ -14,6 +14,8 @@ services:
         - com.df.serviceDomain=drone.p.cns.me
         - com.df.servicePath=/
         - com.df.port=8000
+        - com.df.xForwardedProto=true
+        - com.df.redirectWhenHttpProto=true
     volumes:
       - data:/var/lib/drone/
     environment:
