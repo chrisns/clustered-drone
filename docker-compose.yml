@@ -5,6 +5,7 @@ services:
     networks:
       - proxy
       - default
+    read_only: true
     deploy:
       mode: replicated
       replicas: 1
@@ -20,6 +21,7 @@ services:
     volumes:
       - data:/var/lib/drone/
     environment:
+      - GIN_MODE=release
       - DRONE_ADMIN=${DRONE_ADMIN}
       - DRONE_GITHUB=true
       - DRONE_OPEN=true
@@ -28,6 +30,7 @@ services:
       - DRONE_GITHUB_SECRET=${DRONE_GITHUB_SECRET}
       - DRONE_SECRET=${DRONE_SECRET}
   agent:
+    read_only: true
     image: drone/drone:0.5
     command: agent
     depends_on: [ drone-server ]
@@ -36,10 +39,12 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
+      - GIN_MODE=release
       - DRONE_SERVER=ws://server:8000/ws/broker
       - DRONE_SECRET=${DRONE_SECRET}
 
   tunnel:
+    read_only: true
     image: kaixhin/localtunnel
     command: 8000 --local-host server --subdomain ${EXTERNAL_DRONE_URL}
     depends_on: [ drone-server ]
