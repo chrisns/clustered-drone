@@ -17,7 +17,6 @@ services:
         - com.df.port=8000
         - com.df.httpsOnly=true
         - com.df.xForwardedProto=true
-        - com.df.redirectWhenHttpProto=true
     volumes:
       - data:/var/lib/drone/
     environment:
