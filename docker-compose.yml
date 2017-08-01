@@ -28,6 +28,7 @@ services:
       - DRONE_GITHUB_CLIENT=${DRONE_GITHUB_CLIENT}
       - DRONE_GITHUB_SECRET=${DRONE_GITHUB_SECRET}
       - DRONE_SECRET=${DRONE_SECRET}
+      - DRONE_HOST=https://${EXTERNAL_DRONE_URL}.localtunnel.me
   agent:
     read_only: true
     image: drone/drone:0.8
