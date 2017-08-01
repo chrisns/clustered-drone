@@ -1,7 +1,7 @@
 version: "3"
 services:
   server:
-    image: drone/drone:0.5
+    image: drone/drone:0.8
     networks:
       - proxy
       - default
@@ -30,7 +30,7 @@ services:
       - DRONE_SECRET=${DRONE_SECRET}
   agent:
     read_only: true
-    image: drone/drone:0.5
+    image: drone/drone:0.8
     command: agent
     depends_on: [ drone-server ]
     deploy:
