@@ -1,11 +1,10 @@
 version: "3"
 services:
   server:
-    image: drone/drone:0.8
+    image: drone/drone:0.7
     networks:
       - proxy
       - default
-    read_only: true
     deploy:
       mode: replicated
       replicas: 1
@@ -30,8 +29,9 @@ services:
       - DRONE_SECRET=${DRONE_SECRET}
       - DRONE_HOST=https://${EXTERNAL_DRONE_URL}.localtunnel.me
   agent:
-    read_only: true
-    image: drone/drone:0.8
+    networks:
+      - default
+    image: drone/drone:0.7
     command: agent
     depends_on: [ drone-server ]
     deploy:
@@ -44,9 +44,10 @@ services:
       - DRONE_SECRET=${DRONE_SECRET}
 
   tunnel:
-    read_only: true
     image: kaixhin/localtunnel
     command: 8000 --local-host server --subdomain ${EXTERNAL_DRONE_URL}
+    healthcheck:
+      test: curl https://${EXTERNAL_DRONE_URL}.localtunnel.me | grep html || exit 1
     depends_on: [ drone-server ]
     deploy:
       mode: replicated
