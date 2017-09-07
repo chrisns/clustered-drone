@@ -8,6 +8,10 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
       labels:
         - com.df.notify=true
         - com.df.distribute=true
@@ -28,6 +32,7 @@ services:
       - DRONE_GITHUB_SECRET=${DRONE_GITHUB_SECRET}
       - DRONE_SECRET=${DRONE_SECRET}
       - DRONE_HOST=https://${EXTERNAL_DRONE_URL}.localtunnel.me
+
   agent:
     networks:
       - default
@@ -36,6 +41,10 @@ services:
     depends_on: [ drone-server ]
     deploy:
       mode: global
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -51,6 +60,10 @@ services:
     depends_on: [ drone-server ]
     deploy:
       mode: replicated
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 128M
       replicas: 1
 
 networks:
