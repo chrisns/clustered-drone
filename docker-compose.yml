@@ -53,8 +53,8 @@ services:
       - DRONE_SECRET=${DRONE_SECRET}
 
   tunnel:
-    image: kaixhin/localtunnel
-    command: 8000 --local-host server --subdomain ${EXTERNAL_DRONE_URL}
+    image: chrisns/localtunnel-whitelisted
+    command: -p 8000 --local-host server --subdomain ${EXTERNAL_DRONE_URL} --wp /hook --ws 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,192.30.252.0/22,185.199.108.0/22
     healthcheck:
       test: curl https://${EXTERNAL_DRONE_URL}.localtunnel.me | grep html || exit 1
     depends_on: [ drone-server ]
@@ -65,6 +65,8 @@ services:
           cpus: '0.40'
           memory: 128M
       replicas: 1
+
+
 
 networks:
   default:
