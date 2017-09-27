@@ -41,6 +41,8 @@ services:
     depends_on: [ drone-server ]
     deploy:
       mode: global
+      placement:
+        constraints: [node.role == manager]
       resources:
         limits:
           cpus: '1'
